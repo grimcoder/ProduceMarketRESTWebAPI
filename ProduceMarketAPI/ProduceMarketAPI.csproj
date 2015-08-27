@@ -87,6 +87,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\PricesController.cs" />
+    <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -94,6 +95,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <Content Include="App_Data\priceChanges.json" />
+    <Content Include="App_Data\prices.json" />
+    <Content Include="App_Data\sales.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -102,7 +106,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <PropertyGroup>
