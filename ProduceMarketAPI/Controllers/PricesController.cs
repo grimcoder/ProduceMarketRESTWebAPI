@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using Newtonsoft.Json;
+using ProduceMarketAPI.Models;
 
 
 namespace ProduceMarketAPI.Controllers
@@ -14,26 +15,104 @@ namespace ProduceMarketAPI.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class PricesController : ApiController
     {
+        private static List<PriceClass> _prices;
 
-        public static PriceClass[] prices;
-
-        static PricesController()
+        public static List<PriceClass> Prices
         {
-            JsonSerializer serializer = new JsonSerializer();
-            string path = AppDomain.CurrentDomain.GetData("DataDirectory").ToString() + "\\prices.json";
-            prices = serializer.Deserialize<PriceClass[]>(new JsonTextReader(File.OpenText(path)));
+            get
+            {
+                if (_prices == null)
+                {
+                    try
+                    {
+                        JsonSerializer serializer = new JsonSerializer();
+                        string path = AppDomain.CurrentDomain.GetData("DataDirectory") + "\\Prices.json";
+                        var reader = new JsonTextReader(File.OpenText(path));
+                        _prices = serializer.Deserialize<PriceClass[]>(reader).ToList();
+                        reader.Close();
+                    }
+                    catch (Exception exception)
+                    {
+                        
+                        throw;
+                    }
+                }
+
+                return _prices;
+            }
+
+            set { _prices = value; }
         }
 
-        public PriceClass[] GetAllPrices()
+
+
+        public List<PriceClass> GetAllPrices()
         {
-            return prices;
+            return Prices;
         }
 
         public PriceClass[] GetPrice(long id)
         {
-            return prices.Where(@class => @class.Id == id).ToArray();
+            return Prices.Where(@class => @class.Id == id).ToArray();
         }
 
-        
+        public void PostNewPrice(PriceClass price)      
+        {
+
+            if (price.Id == 0)
+            {
+                var newId = Prices.Select(@class => @class.Id).Max() + 1;
+                price.Id = newId;
+                Prices.Add(price);
+
+                var newPriceChange = new PriceChangeClass
+                {
+                    Action = "New",
+                    Id = price.Id,
+                    ItemName = price.ItemName,
+                    Price = price.Price,
+                    priceWas = 0
+                };
+                ReportsController.PriceChanges.Add(newPriceChange);
+            }
+
+            else
+            {
+                var oldPrice = Prices.FirstOrDefault(@class => @class.Id == price.Id);
+                Prices.Remove(oldPrice);
+                Prices.Add(price);
+
+                var newPriceChange = new PriceChangeClass
+                {
+                    Action = "Edit",
+                    Id = price.Id,
+                    ItemName = price.ItemName,
+                    Price = price.Price,
+                    priceWas = oldPrice.Price
+                };
+                ReportsController.PriceChanges.Add(newPriceChange);
+            }
+            Utils.SaveToFile();
+        }
+
+        public void DeletePrice(long id)
+        {
+            var oldPrice = Prices.FirstOrDefault(@class => @class.Id == id);
+            Prices.Remove(oldPrice);
+
+            var newPriceChange = new PriceChangeClass
+            {
+                Action = "Delete",
+                Id = oldPrice.Id,
+                ItemName = oldPrice.ItemName,
+                Price = 0,
+                priceWas = oldPrice.Price
+            };
+            ReportsController.PriceChanges.Add(newPriceChange);
+            Utils.SaveToFile();
+        }
+
+
+
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace ProduceMarketAPI.Controllers
+namespace ProduceMarketAPI.Models
 {
     [DataContract]
     public class PriceClass 
