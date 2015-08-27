@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Newtonsoft.Json;
 using ProduceMarketAPI.Controllers;
 using ProduceMarketAPI.Models;
@@ -17,12 +18,14 @@ namespace ProduceMarketAPI.DataAccess
         {
             get
             {
+
+
                 if (_prices == null)
                 {
                     try
                     {
                         JsonSerializer serializer = new JsonSerializer();
-                        string path = AppDomain.CurrentDomain.GetData("DataDirectory") + "\\Prices.json";
+                        string path = Utils.DataDir + "\\Prices.json";
                         var reader = new JsonTextReader(File.OpenText(path));
                         _prices = serializer.Deserialize<PriceClass[]>(reader).ToList();
                         reader.Close();
@@ -117,7 +120,7 @@ namespace ProduceMarketAPI.DataAccess
                     try
                     {
                         JsonSerializer serializer = new JsonSerializer();
-                        string path = AppDomain.CurrentDomain.GetData("DataDirectory") + "\\priceChanges.json";
+                        string path = Utils.DataDir + "\\priceChanges.json";
                         var reader = new JsonTextReader(File.OpenText(path));
                         _priceChanges = serializer.Deserialize<PriceChangeClass[]>(reader).ToList();
                         reader.Close();
@@ -147,7 +150,7 @@ namespace ProduceMarketAPI.DataAccess
                     try
                     {
                         JsonSerializer serializer = new JsonSerializer();
-                        string path = AppDomain.CurrentDomain.GetData("DataDirectory") + "\\Sales.json";
+                        string path = Utils.DataDir + "\\Sales.json";
                         var reader = new JsonTextReader(File.OpenText(path));
                         _sales = serializer.Deserialize<SaleClass[]>(reader).ToList();
                         reader.Close();
