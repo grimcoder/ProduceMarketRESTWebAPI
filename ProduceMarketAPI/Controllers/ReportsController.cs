@@ -8,7 +8,8 @@ namespace ProduceMarketAPI.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ReportsController : ApiController
     {
-        static  DataAccess.DataAccess dataAccess = new DataAccess.DataAccess();
+
+        private readonly DataAccess.IDataAccess dataAccess = Utils.ResolveDataAccess();
 
         [ActionName("Prices")]
         public List<PriceChangeClass> GetPriceChanges()

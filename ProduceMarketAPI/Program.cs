@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http.Headers;
-using System.Web;
 using System.Web.Http;
 using System.Web.Http.SelfHost;
 
@@ -17,6 +14,7 @@ namespace ProduceMarketAPI
 
             config.MapHttpAttributeRoutes();
             config.EnableCors();
+
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
@@ -38,5 +36,7 @@ namespace ProduceMarketAPI
                 Console.ReadLine();
             }
         }
+
+
     }
 }

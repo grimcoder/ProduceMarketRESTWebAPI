@@ -8,7 +8,7 @@ namespace ProduceMarketAPI.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class SalesController : ApiController
     {
-        private static DataAccess.DataAccess dataAccess = new DataAccess.DataAccess();
+        private readonly DataAccess.IDataAccess dataAccess = Utils.ResolveDataAccess();
 
         public List<SaleClass> GetAllPrices()
         {

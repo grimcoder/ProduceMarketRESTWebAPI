@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net.Mime;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using ProduceMarketAPI.Models;
@@ -8,7 +9,12 @@ namespace ProduceMarketAPI.Controllers
     [EnableCors("*", "*", "*")]
     public class PricesController : ApiController
     {
-        private readonly DataAccess.DataAccess dataAccess = new DataAccess.DataAccess();
+        static PricesController()
+        {
+            
+        }
+
+        private readonly DataAccess.IDataAccess dataAccess = Utils.ResolveDataAccess();
 
         public List<PriceClass> GetAllPrices()
         {

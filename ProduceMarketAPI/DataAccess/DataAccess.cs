@@ -18,8 +18,6 @@ namespace ProduceMarketAPI.DataAccess
         {
             get
             {
-
-
                 if (_prices == null)
                 {
                     try

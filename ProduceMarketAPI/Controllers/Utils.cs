@@ -1,7 +1,9 @@
 using System;
+using System.Configuration;
 using System.IO;
 using System.Reflection;
 using Newtonsoft.Json;
+using ProduceMarketAPI.DataAccess;
 
 namespace ProduceMarketAPI.Controllers
 {
@@ -15,7 +17,21 @@ namespace ProduceMarketAPI.Controllers
             }
         }
 
-        private static  readonly DataAccess.DataAccess dataAccess = new DataAccess.DataAccess();
+        public static IDataAccess ResolveDataAccess()
+        {
+            var isMongo = bool.Parse(ConfigurationManager.AppSettings["isMongo"]);
+            if (isMongo)
+            {
+                    dataAccess = new MongoDAO();
+            }
+            else
+            {
+                dataAccess = new DataAccess.DataAccess();
+            }
+            return dataAccess;
+        }
+
+        private static DataAccess.IDataAccess dataAccess;
 
         public static void SaveToFile()
         {
