@@ -89,6 +89,7 @@
     <Compile Include="Controllers\priceChange.cs" />
     <Compile Include="Controllers\PriceClass.cs" />
     <Compile Include="Controllers\PricesController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\SaleClass.cs" />
     <Compile Include="Controllers\SaleDetailClass.cs" />
     <Compile Include="Controllers\SalesController.cs" />
