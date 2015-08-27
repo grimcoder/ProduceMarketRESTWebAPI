@@ -1,36 +1,35 @@
 using System;
 using System.IO;
-using System.Linq;
 using Newtonsoft.Json;
-using ProduceMarketAPI.Models;
 
 namespace ProduceMarketAPI.Controllers
 {
     public static class Utils
     {
+        private static  readonly DataAccess.DataAccess dataAccess = new DataAccess.DataAccess();
         public static void SaveToFile()
         {
             try
             {
                 JsonSerializer serializer = new JsonSerializer();
 
-                var prices = PricesController.Prices;
-                var sales = SalesController.Sales;
-                var priceChanges = ReportsController.PriceChanges;
+                var prices = dataAccess.GetAllPrices();
+                var sales = dataAccess.GetAllSales();
+                var priceChanges = dataAccess.GetPriceChanges();
 
                 string path = AppDomain.CurrentDomain.GetData("DataDirectory") + "\\Prices.json";
                 var writer = new JsonTextWriter(File.CreateText(path));
-                serializer.Serialize(writer, PricesController.Prices);
+                serializer.Serialize(writer, prices);
                 writer.Close();
 
                 path = AppDomain.CurrentDomain.GetData("DataDirectory") + "\\Sales.json";
                 writer = new JsonTextWriter(File.CreateText(path));
-                serializer.Serialize(writer, SalesController.Sales);
+                serializer.Serialize(writer, sales);
                 writer.Close();
 
                 path = AppDomain.CurrentDomain.GetData("DataDirectory") + "\\priceChanges.json ";
                 writer = new JsonTextWriter(File.CreateText(path));
-                serializer.Serialize(writer, ReportsController.PriceChanges);
+                serializer.Serialize(writer, priceChanges);
                 writer.Close();
 
             }

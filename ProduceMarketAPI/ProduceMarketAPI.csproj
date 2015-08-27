@@ -87,6 +87,8 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Utils.cs" />
+    <Compile Include="DataAccess\DataAccess.cs" />
+    <Compile Include="DataAccess\IDataAccess.cs" />
     <Compile Include="Models\priceChangeClass.cs" />
     <Compile Include="Models\PriceClass.cs" />
     <Compile Include="Controllers\PricesController.cs" />
