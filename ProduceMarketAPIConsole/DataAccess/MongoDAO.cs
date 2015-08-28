@@ -3,40 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using ProduceMarketAPI.Models;
-using MongoDB.Bson;
-using MongoDB.Driver;
-
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MongoDB.Bson;
-
 
 namespace ProduceMarketAPI.DataAccess
 {
     public class MongoDAO : IDataAccess
     {
-
-        protected static IMongoClient _client;
-        protected static IMongoDatabase _database;
-
-        public MongoDAO()
+        public List<PriceClass> GetAllPrices()
         {
-            _client = new MongoClient();
-            _database = _client.GetDatabase("ProduceMarket");
-        }
-
-
-        public  List<PriceClass> GetAllPrices()
-        {
-            var collection = _database.GetCollection<BsonDocument>("prices");
-            var filter = new BsonDocument();
-            var count = 0;
-            var result = collection.Find(filter).ToListAsync();
-
-            return null;
+            throw new NotImplementedException();
         }
 
         public PriceClass[] GetPrice(long id)

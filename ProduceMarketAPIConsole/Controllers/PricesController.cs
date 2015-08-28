@@ -9,12 +9,11 @@ namespace ProduceMarketAPI.Controllers
     [EnableCors("*", "*", "*")]
     public class PricesController : ApiController
     {
-
-        public PricesController()
+        static PricesController()
         {
             
         }
-        private readonly DataAccess.IDataAccess dataAccess = Utils.ResolveDataAccess();
+        private readonly DataAccess.DataAccess dataAccess = new DataAccess.DataAccess();
 
         public List<PriceClass> GetAllPrices()
         {
